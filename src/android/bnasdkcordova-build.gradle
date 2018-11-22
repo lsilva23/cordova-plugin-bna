@@ -1,0 +1,19 @@
+repositories {
+	flatDir {
+		dirs 'src/main/libs'
+	}
+}
+
+dependencies {
+    // Dependencias do BNA
+    implementation 'com.evernote:android-job:1.2.5'
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.apis:google-api-services-pubsub:v1-rev379-1.23.0'
+    implementation 'com.google.api-client:google-api-client-android:1.23.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.j256.ormlite:ormlite-android:5.1'
+    implementation 'com.j256.ormlite:ormlite-core:5.1'
+	implementation(name:'bnasdk-release', ext:'aar')
+}
