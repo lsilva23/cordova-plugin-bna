@@ -29,9 +29,11 @@ public class BNASdkCordova extends CordovaPlugin {
         switch (action) {
             case BNA_GO:
                 BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
+				callbackContext.success();
                 return true;
             case BNA_STOP:
                 BnaSDK.instance().stop(this.mCordovaInterface.getContext().getApplicationContext());
+				callbackContext.success();
                 return true;
             default:
                 return false;
