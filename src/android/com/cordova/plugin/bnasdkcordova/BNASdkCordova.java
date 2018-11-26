@@ -26,7 +26,7 @@ public class BNASdkCordova extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
-        switch (action) {
+        s/*witch (action) {
             case BNA_GO:
                 BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
 				callbackContext.success();
@@ -37,6 +37,9 @@ public class BNASdkCordova extends CordovaPlugin {
                 return true;
             default:
                 return false;
-        }
+        }*/
+		BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
+		callbackContext.success();
+		return true;
     }
 }
