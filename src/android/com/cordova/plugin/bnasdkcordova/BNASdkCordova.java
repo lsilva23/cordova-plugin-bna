@@ -38,6 +38,7 @@ public class BNASdkCordova extends CordovaPlugin {
             default:
                 return false;
         }*/
+		BnaSDK.create(this.mCordovaInterface.getContext().getApplicationContext());
 		BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
 		callbackContext.success();
 		return true;
