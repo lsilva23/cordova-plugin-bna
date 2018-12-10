@@ -4,6 +4,13 @@ repositories {
 	}
 }
 
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
 dependencies {
     // Dependencias do BNA
     implementation 'com.evernote:android-job:1.2.5'
