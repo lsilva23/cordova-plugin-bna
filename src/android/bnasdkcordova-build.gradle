@@ -1,6 +1,6 @@
 repositories {
-	mavenCentral()
-        jcenter()
+	classpath 'com.android.tools.build:gradle:+'
+    classpath 'com.google.gms:google-services:3.0.0'
 	flatDir {
 		dirs 'src/main/libs'
 	}
@@ -9,8 +9,6 @@ repositories {
 dependencies {
     // Dependencias do BNA
     implementation 'com.evernote:android-job:1.2.5'
-    implementation 'com.android.tools.build:gradle:2.3.+'
-    implementation 'com.google.gms:google-services:3.1.+'
     implementation 'com.google.android.gms:play-services-gcm:10.+'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
     implementation('com.google.apis:google-api-services-pubsub:v1-rev379-1.23.0') {
