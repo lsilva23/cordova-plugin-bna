@@ -39,10 +39,7 @@
 			android:name="com.ericsson.bna.application.key"
 			android:value="com.ericsson.findfrete.asp"/>
 		<application>	
-		<service
-        android:name="com.evernote.android.job.gcm.PlatformGcmService"
-        android:enabled="true"
-        tools:replace="android:enabled" />
+			<service android:name="com.evernote.android.job.gcm.PlatformGcmService" android:enabled="true" />
 		</application>
 	  
     </config-file>
