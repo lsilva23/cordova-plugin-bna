@@ -58,8 +58,16 @@ Adicione ao seu arquivo `AndroidManifest.xml` os seguintes meta-dados:
     <meta-data
         android:name="com.ericsson.bna.application.key"
         android:value="Your App Key"/>
+
+    <service
+        android:name="com.evernote.android.job.gcm.PlatformGcmService"
+        android:enabled="true"
+        tools:replace="android:enabled" />
+
 </application>
 ```
+
+
 
 **ATENÇÃO:**
 Se sua aplicação  é distribuída para domínios diferentes, identifique o domínio informando este meta-dado: `com.ericsson.bna.application.domain` no arquivo `AndroidManifest.xml`, conforme exemplificado acima.
@@ -88,35 +96,21 @@ Em seguida use o comando para construir a aplicação:
 
 **Após o build da aplicação com sucesso, continue com os passos a seguir.**
 
-Na classe que herda de `Application` inicie o BnaSDK:
+No Arquivo .JS de inicialização da aplicação, após concedidas as permissões necessárias inicie o BnaSDK:
 
 ```
-@Override
-public class MyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();  
-        BnaSDK.create(getApplicationContext());  
-    }
-}
-```
+onDeviceReady: function() {
 
+    // ** após permissões concedidas com sucesso
 
-Com isso você configura todos os serviços do BNA para a sua aplicação, mas, não inicia.
-Para iniciar, chame o método `go(Context aContext)` na sua Activity principal.
+    cordova.exec(
+        function(success) { },              //success callback
+        function(error) { },                //error callback
+        "BNASdkCordova",                    //class name
+        "go",                               //action name
+        []
+    );
 
-**A partir daqui utilize as classes equivalentes do Cordova ou da sua distribuição. Ex.: *CordovaActivity***
-```
-public class MainActivity extends AppCompatActivity {
-  
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);  
-        setContentView(R.layout.activity_main);  
-  
-        BnaSDK.instance().go(getApplicationContext());  
-    }
-    
 }
 ```
 
@@ -124,53 +118,37 @@ public class MainActivity extends AppCompatActivity {
 Caso sua aplicação ofereça suporte a versões Marshmallow ou superior, solicite as permissões em tempo de execução:
 
 ```
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-  
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        if ((  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_PHONE_STATE)) +  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)) +  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)) +  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO)) +  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) +  
-            (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CONTACTS))  
-        ) != PackageManager.PERMISSION_GRANTED) {  
-             ActivityCompat.requestPermissions(this, new String[]{
-			Manifest.permission.READ_PHONE_STATE,  
-    			Manifest.permission.ACCESS_COARSE_LOCATION,
-    			Manifest.permission.ACCESS_FINE_LOCATION,
-			Manifest.permission.RECORD_AUDIO,  
-			Manifest.permission.WRITE_EXTERNAL_STORAGE,  
-    			Manifest.permission.READ_CONTACTS
-  		}, 1992);
-	} else {
-            startSDK();  
-        }  
-    } else {
-        startSDK();  
-  }
+
+onDeviceReady: function() {
+
+    var permissions = cordova.plugins.permissions;
+
+    var list = [
+        permissions.READ_PHONE_STATE,
+        permissions.ACCESS_COARSE_LOCATION,
+        permissions.ACCESS_FINE_LOCATION,
+        permissions.RECORD_AUDIO,
+        permissions.WRITE_EXTERNAL_STORAGE,
+        permissions.READ_CONTACTS
+    ];
+
 }
 
-@Override
-public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        
-    // Verifique se todas as permissões foram concedidas e inicie o serviço BNA
-    startSDK();
-}
-
-private void startSDK() {
-    BnaSDK.instance().go(getApplicationContext());
-}
 ```
 
 **ATENÇÃO:**
 Caso o usuário negue alguma permissão, verifique novamente se é possível solicitar quando a aplicação for executada pois algumas features do serviço BNA irão apenas funcionar se todas as permissões forem concedidas.
 
-Caso o usuário não permita a localização GPS, por exemplo, o serviço do BNA não deverá ser iniciado. E, caso esteja em execução, deverá ser parado utilizando o método `stop(Context aContext)`.
+Caso o usuário não permita a localização GPS, por exemplo, o serviço do BNA não deverá ser iniciado. E, caso esteja em execução, deverá ser parado utilizando o método
+ `
+ cordova.exec(
+        function(success) { },              //success callback
+        function(error) { },                //error callback
+        "BNASdkCordova",                    //class name
+        "stop",                             //action name
+        []
+    );
+`.
 
 Sempre que possível, requisite as permissões negadas para que o seu serviço BNA obtenha coletas de dados corretamente.
 

@@ -7,6 +7,7 @@ import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -26,21 +27,24 @@ public class BNASdkCordova extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
-        /*switch (action) {
+        
+        switch (action) {
             case BNA_GO:
+                try{
+                    BnaSDK.create(this.mCordovaInterface.getContext().getApplicationContext());
+                }catch (Exception e){
+                    Log.d("Description", e.toString());
+                }
                 BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
-				callbackContext.success();
+                callbackContext.success();
                 return true;
             case BNA_STOP:
                 BnaSDK.instance().stop(this.mCordovaInterface.getContext().getApplicationContext());
-				callbackContext.success();
+                callbackContext.success();
                 return true;
             default:
                 return false;
-        }*/
-		BnaSDK.create(this.mCordovaInterface.getContext().getApplicationContext());
-		BnaSDK.instance().go(this.mCordovaInterface.getContext().getApplicationContext());
-		callbackContext.success();
-		return true;
+        }
+
     }
 }
