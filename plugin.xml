@@ -66,10 +66,6 @@
 					<category android:name="android.intent.category.LAUNCHER" />
 				</intent-filter>
 			</activity>
-			<service
-				android:name="com.evernote.android.job.gcm.PlatformGcmService"
-				android:enabled="true"
-				tools:replace="android:enabled" />
 		</application>
 		<uses-sdk
 			android:minSdkVersion="19"
